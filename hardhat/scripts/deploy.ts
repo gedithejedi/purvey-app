@@ -1,24 +1,29 @@
-import { ethers } from "hardhat";
+const main = async () => {
+  const nftContractFactory = await hre.ethers.getContractFactory('MyEpicNFT');
+  const nftContract = await nftContractFactory.deploy();
+  await nftContract.deployed();
+  console.log("Contract deployed to:", nftContract.address);
 
-async function main() {
-  const currentTimestampInSeconds = Math.round(Date.now() / 1000);
-  const unlockTime = currentTimestampInSeconds + 60;
+  // Call the function.
+  let txn = await nftContract.makeAnEpicNFT()
+  // Wait for it to be mined.
+  await txn.wait()
+  console.log("Minted NFT #1")
 
-  const lockedAmount = ethers.utils.parseEther("0.001");
+  txn = await nftContract.makeAnEpicNFT()
+  // Wait for it to be mined.
+  await txn.wait()
+  console.log("Minted NFT #2")
+};
 
-  const Lock = await ethers.getContractFactory("Lock");
-  const lock = await Lock.deploy(unlockTime, { value: lockedAmount });
+const runMain = async () => {
+  try {
+    await main();
+    process.exit(0);
+  } catch (error) {
+    console.log(error);
+    process.exit(1);
+  }
+};
 
-  await lock.deployed();
-
-  console.log(
-    `Lock with ${ethers.utils.formatEther(lockedAmount)}ETH and unlock timestamp ${unlockTime} deployed to ${lock.address}`
-  );
-}
-
-// We recommend this pattern to be able to use async/await everywhere
-// and properly handle errors.
-main().catch((error) => {
-  console.error(error);
-  process.exitCode = 1;
-});
+runMain();
