@@ -1,14 +1,13 @@
-import { HardhatUserConfig } from "hardhat/config";
-import "@nomicfoundation/hardhat-toolbox";
+require("@nomicfoundation/hardhat-toolbox");
+require("dotenv").config();
+const { PRIVATE_KEY } = process.env;
 
-const config: HardhatUserConfig = {
-  solidity: "0.8.18",
+module.exports = {
+  solidity: "0.8.17",
   networks: {
-    sepolia: {
-      url: process.env.QUICKNODE_API_KEY_URL,
-      accounts: [process.env.SEPOLIA_PRIVATE_KEY],
+    linea: {
+      url: `https://rpc.goerli.linea.build/`,
+      accounts: [PRIVATE_KEY],
     },
   },
 };
-
-export default config;
