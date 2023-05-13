@@ -32,6 +32,7 @@ const TheNavbar =  ({ state, onLogout }: HeaderProps) => {
                 />
             </Link>
             <div>
+                {/* TODO: replace it with user's name in the card */}
                <span className='pr-2'>GM! {`${state.wallet?.slice(0,10)}...` ?? ''}</span>
                 <Avatar size={32} icon={<UserOutlined />} onClick={showDrawer}/>
             </div>
