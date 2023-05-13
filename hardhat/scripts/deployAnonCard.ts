@@ -1,25 +1,16 @@
-const { network } = require("hardhat")
-import { developmentChains } from "../helper-hardhat-config";
-const { verify } = require("../utils/verify")
-
-module.exports = async ({ getNamedAccounts, deployments }) => {
-    const { deploy, log } = deployments
-    const { deployer } = await getNamedAccounts()
-
-    log("----------------------------------------------------")
-    const arguments = []
-    const basicNft = await deploy("AnonCard", {
-        from: deployer,
-        args: arguments,
-        log: true,
-        waitConfirmations: network.config.blockConfirmations || 1,
-    })
-
-    // Verify the deployment
-    if (!developmentChains.includes(network.name) && process.env.ETHERSCAN_API_KEY) {
-        log("Verifying...")
-        await verify(basicNft.address, arguments)
-    }
+// scripts/deploy.js
+async function main () {
+  // We get the contract to deploy
+  const AnonCard = await ethers.getContractFactory('AnonCard');
+  console.log('Deploying AnonCard...');
+  const anonCard = await AnonCard.deploy();
+  await anonCard.deployed();
+  console.log('Box deployed to:', anonCard.address);
 }
 
-module.exports.tags = ["all", "basicnft", "main"]
+main()
+  .then(() => process.exit(0))
+  .catch(error => {
+    console.error(error);
+    process.exit(1);
+});
