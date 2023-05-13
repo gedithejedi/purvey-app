@@ -24,6 +24,5 @@ export const stateAtomWithPersistence = atom(
     }
     set(stateAtom, newState)
     localStorage.setItem('state',JSON.stringify(newState))
-    console.log(newState)
   },
 )

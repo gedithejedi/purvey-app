@@ -53,7 +53,7 @@ function metamaskReducer(state: State, action: Action): State {
       if (window.ethereum) {
         window.ethereum.removeAllListeners('accountsChanged')
       }
-      return { ...state, wallet: null, isMetaMaskInstalled, balance: null }
+      return { ...state, wallet: null, isMetaMaskInstalled, balance: null, status: 'idle' }
     }
     case 'pageLoaded': {
       const { balance, wallet } = action

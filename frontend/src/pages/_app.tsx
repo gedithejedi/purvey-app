@@ -19,7 +19,8 @@ const MyApp: AppType = ({ Component, pageProps }) => {
     if(state?.isMetaMaskInstalled === false || isNotLoggedIn) {
       router.replace("/auth/login")
     }
-  }, [state, router]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [state]);
   
 
   if(state?.status === 'loading')  {

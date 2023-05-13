@@ -45,18 +45,19 @@ const Login: NextPage = () => {
         dispatch({ type: 'connect', wallet: accounts[0], balance })
 
         listen()
-        setStatus('connect')
         router.replace("/")
       }
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch(e: any) {
-      setStatus('idle')
+      dispatch({ type: 'disconnect' })
       // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
       const errorText = e.message ? e.message as string : "Unknown error occurred!"
       Modal.error({
         title: 'This is an error message',
         content: `Connection could not be established. (${errorText})`,
       });
+    } finally {
+      setStatus('idle')
     }
   }
 
@@ -66,6 +67,7 @@ const Login: NextPage = () => {
         <title>AnonCard</title>
         <meta name="description" content="Connect your wallet and start to connecting with Frens" />
         <link rel="icon" href="/favicon.ico" />
+        <link rel="shortcut icon" href="http://localhost:3000/Purvey_Logo_simple.svg" />
       </Head>
       <div className="w-full h-screen flex flex-col items-center justify-center gap-10">
         <div className="flex flex-col gap-3 items-center">
