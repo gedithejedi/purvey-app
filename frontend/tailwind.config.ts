@@ -5,7 +5,7 @@ export default {
   theme: {
     extend: {
       width: {
-        'halfMinusGap': 'calc(50% - 0.5rem)',
+        'halfMinusGap': 'calc(50% - 0.25rem)',
       }
     },
   },

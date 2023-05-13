@@ -1,9 +1,11 @@
 import { Button, Card } from 'antd';
 import Link from 'next/link';
+import CardDetail from '~/components/AnonCard/Detail'
+import type { AnonCard } from '~/types';
 
 interface MyAnonCardProps {
   // TODO: Update data type properly
-  card?: string;
+  card?: AnonCard;
 }
 
 const TheNavbar =  ({ card }: MyAnonCardProps) => {
@@ -18,6 +20,7 @@ const TheNavbar =  ({ card }: MyAnonCardProps) => {
                     </Link>
                 </Button>
             </div>}
+            {card && <CardDetail card={card}/>}
         </Card>    
     )
 };
