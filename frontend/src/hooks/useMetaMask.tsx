@@ -60,7 +60,6 @@ function metamaskReducer(state: State, action: Action): State {
     case 'idle': {
       return { ...state, status: 'idle' }
     }
-
     default: {
       throw new Error('Unhandled action type')
     }

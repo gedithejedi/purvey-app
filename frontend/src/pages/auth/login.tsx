@@ -10,7 +10,7 @@ import { useRouter } from 'next/navigation'
 const Login: NextPage = () => {
   const {
       dispatch,
-      state: { wallet },
+      state,
     } = useMetaMask()
   const listen = useListen()
   const [status, setStatus] = useState('idle');
@@ -22,10 +22,10 @@ const Login: NextPage = () => {
   }, [])
 
  useEffect(() => {
-    if(wallet) {
+    if(state?.wallet) {
         router.replace("/")
     }
-  }, [router, wallet]);  
+  }, [router, state?.wallet]);  
   
 
   const handleConnect = async () => {
