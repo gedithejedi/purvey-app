@@ -15,7 +15,7 @@ const TheNavbar =  ({ card }: MyAnonCardProps) => {
             <div className="flex flex-col items-center justify-center gap-3 h-32">
                 <p className="text-gray-600">Please create your card to start to connecting with Frens!</p> 
                 <Button className="w-36" type="primary">
-                    <Link href="#">
+                    <Link href="/create">
                         Create Card
                     </Link>
                 </Button>
