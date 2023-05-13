@@ -1,4 +1,3 @@
-import { Button } from 'antd';
 import React from 'react';
 import type { AnonCard } from '~/types';
 
@@ -23,10 +22,6 @@ const Detail = ({ card }: DetailProps) => (
                 </div>
             );
         })}
-        <div className='flex w-64 gap-x-2 mt-6'>
-            <Button type="primary" className='w-halfMinusGap'>Send</Button>
-            <Button className='w-halfMinusGap'>Edit</Button>
-        </div>
     </div>
   </header>
 );

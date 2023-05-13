@@ -6,7 +6,7 @@ const BackButton = () => {
   const router = useRouter()
   
   return (
-   <Button onClick={()=> router.back()}>Back</Button>
+   <Button onClick={()=> router.replace('/')}>Back</Button>
   );
 };
 

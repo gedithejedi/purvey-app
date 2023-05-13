@@ -20,7 +20,14 @@ const TheNavbar =  ({ card }: MyAnonCardProps) => {
                     </Link>
                 </Button>
             </div>}
-            {card && <CardDetail card={card}/>}
+            {card && 
+                <div>
+                    <CardDetail card={card}/>
+                    <div className='flex w-64 gap-x-2 mt-6'>
+                        <Button type="primary" className='w-halfMinusGap'>Send</Button>
+                        <Button className='w-halfMinusGap'>Edit</Button>
+                    </div>
+                </div>}
         </Card>    
     )
 };
