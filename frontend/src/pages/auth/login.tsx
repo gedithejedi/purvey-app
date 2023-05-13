@@ -6,6 +6,7 @@ import { useListen } from '../../hooks/useListen'
 import { useMetaMask } from '../../hooks/useMetaMask'
 import { useEffect, useState } from "react";
 import { useRouter } from 'next/navigation'
+import Image from "next/image";
 
 const Login: NextPage = () => {
   const {
@@ -67,16 +68,29 @@ const Login: NextPage = () => {
         <meta name="description" content="Connect your wallet and start to connecting with Frens" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className="min-h-screen px-4 py-2">
-        <div>
-            <Button type="primary" loading={status === 'loading'} disabled={!ethereumProviderInjected} onClick={handleConnect}>
-                Sign in with MetaMask
-            </Button>
-            <Button>
-                <Link href="https://metamask.io/" target="_blank">Create My Wallet</Link>
-            </Button>
+      <div className="w-full h-screen flex flex-col items-center justify-center gap-10">
+        <div className="flex flex-col gap-3 items-center">
+          <Image
+            src="/Purvey_Logo_simple.svg"
+            alt="logo"
+            width={100}
+            height={60}
+          />
+          <span className="text-sm text-gray-500">AnonCard - Connect with Frens</span>
         </div>
-      </main>
+        <div className="max-w-md w-full flex flex-col gap-3">
+          {ethereumProviderInjected && <Button type="primary" className="w-full" loading={status === 'loading'} onClick={handleConnect}>
+              Sign in with MetaMask
+          </Button>}
+          {!ethereumProviderInjected &&
+            <div className="text-sm text-gray-600 py-2">Opps! It looks like you didn't installed MetaMask extension on your browser... <br/>
+            <span className="font-bold">Please install MetaMask to connect to our app!</span></div>
+          }
+          <Button type={ethereumProviderInjected ? 'default' : 'primary'} className="w-full">
+            <Link href="https://metamask.io/" target="_blank">Check out MetaMask</Link>
+          </Button>
+        </div>
+      </div>
     </>
   );
 };
