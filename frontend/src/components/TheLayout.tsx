@@ -40,8 +40,10 @@ const PrimaryLayout: React.FC<IPrimaryLayout> = ({ children }) => {
       </Head>
       <div className="min-h-screen">
         {!router.route.includes('auth') && <TheNavbar state={state} onLogout={handleDisconnect} />}
-        <div className="px-6 h-full">
-          {children}
+        <div className="px-6 h-full flex justify-center">
+          <div className="h-full max-w-5xl">
+            {children}
+          </div>
         </div>
       </div>
     </>
