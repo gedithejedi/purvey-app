@@ -48,7 +48,9 @@ const TheNavbar =  ({ state, onLogout }: HeaderProps) => {
                             <p className='font-bold'>balance: </p>
                             <p>{parseInt(state.balance)} ETH</p>
                         </div>
-                        <Button type="primary">Topup</Button>
+                        <Button type="primary" href="https://portfolio.metamask.io/buy?metamaskEntry=ext_buy_button" target="_blank">
+                            Topup
+                        </Button>
                     </div>
                     <Button onClick={onLogout} className='w-full'>Logout</Button>
                 </div>

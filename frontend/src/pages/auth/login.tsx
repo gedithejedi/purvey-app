@@ -1,7 +1,6 @@
 import { Modal, Button } from "antd";
 import { type NextPage } from "next";
 import Head from "next/head";
-import Link from "next/link";
 import { useListen } from '../../hooks/useListen'
 import { useMetaMask } from '../../hooks/useMetaMask'
 import { useEffect, useState } from "react";
@@ -86,8 +85,8 @@ const Login: NextPage = () => {
             <div className="text-sm text-gray-600 py-2">Opps! It looks like you didn't installed MetaMask extension on your browser... <br/>
             <span className="font-bold">Please install MetaMask to connect to our app!</span></div>
           }
-          <Button type={ethereumProviderInjected ? 'default' : 'primary'} className="w-full">
-            <Link href="https://metamask.io/" target="_blank">Check out MetaMask</Link>
+          <Button type={ethereumProviderInjected ? 'default' : 'primary'} className="w-full"  href="https://metamask.io/" target="_blank">
+            Check out MetaMask
           </Button>
         </div>
       </div>
