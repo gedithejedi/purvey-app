@@ -6,6 +6,7 @@ import { type UploadRequestOption as RcCustomRequestOptions } from 'rc-upload/li
 import { env } from "~/env.mjs";
 import { ethers } from "ethers";
 import anonCard from "~/utils/AnonCard.json";
+import { useMetaMask } from '~/hooks/useMetaMask';
 
 const NFT_STORAGE = env.NEXT_PUBLIC_NFT_STORAGE;
 const client = new NFTStorage({ token: NFT_STORAGE })
@@ -19,24 +20,27 @@ const normFile = (e: any) => {
 };
 
 const AnonCardInformation = () => {
-
+  const {state} = useMetaMask()
   const askContractToMintNft = async (metadata) => {
     const CONTRACT_ADDRESS = "0x637FB5145070aF52095762bD6a274e4b3370B446";
-  
+    console.log(999)
     try {
       const { ethereum } = window;
   
       if (ethereum) {
         const provider = new ethers.BrowserProvider(ethereum);
+        console.log(provider)
+        const signer = provider.getSigner();
         const connectedContract = new ethers.Contract(CONTRACT_ADDRESS, anonCard.abi, provider);
   
         console.log("Going to pop wallet now to pay gas...")
-        const nftTxn = await connectedContract.safeMint();
-  
+        
+        const nftTxn = await connectedContract.safeMint(state.wallet, metadata);
+        console.log(nftTxn);
         console.log("Mining...please wait.")
         await nftTxn.wait();
         
-        console.log(`Mined, see transaction: https://goerli.etherscan.io/tx/${nftTxn.hash}`);
+        console.log(`Mined, see transaction: https://explorer.goerli.linea.build/tx/${nftTxn.hash}`);
   
       } else {
         console.log("Ethereum object doesn't exist!");

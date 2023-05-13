@@ -11,6 +11,7 @@
     "build-storybook": "storybook build"
   },
   "dependencies": {
+    "@metamask/detect-provider": "^2.0.0",
     "@metamask/providers": "^11.0.0",
     "@metamask/sdk": "^0.2.4",
     "@t3-oss/env-nextjs": "^0.2.1",
