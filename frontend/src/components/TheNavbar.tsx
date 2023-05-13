@@ -48,15 +48,19 @@ const TheNavbar =  ({ state, onLogout }: HeaderProps) => {
                 <Modal footer={null} open={openQRPopup} className="flex items-center" onCancel={()=>setOpenQRPopup(false)}>
                     <div className='flex w-[280px] flex-col gap-3'>
                        <QRCode value={state.wallet} />
-                        <p className='text-gray-600'>Scan the QR code to type copy the value</p>
+                        <p className='text-gray-600'>Scan the QR code to get the wallet address</p>
                     </div>
                 </Modal>
-                <div className='h-full flex flex-col justify-between'>
+                <div className='h-full flex flex-col justify-between w-full'>
                     <div className='flex flex-col gap-2'>
                         <div>
                             <p className='font-bold'>wallet: </p>
                             <p>{state.wallet}</p>
-                            <Button type="primary" onClick={()=>setOpenQRPopup(true)}>
+                            <Button 
+                                shape="circle" 
+                                onClick={()=>setOpenQRPopup(true)}
+                                className='flex items-center justify-center'
+                            >
                                 <QrcodeOutlined />
                             </Button>
                         </div>
