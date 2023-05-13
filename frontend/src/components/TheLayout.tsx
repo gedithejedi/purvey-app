@@ -16,10 +16,10 @@ const PrimaryLayout: React.FC<IPrimaryLayout> = ({ children }) => {
     dispatch({ type: 'disconnect' })
   }
 
-  if(!state) {
+  if(!router.route.includes('auth') && !state) {
     return (
       <div className="min-h-screen px-4 py-2">
-        <Spin tip="Loading">
+        <Spin tip="Loading" className="min-h-screen">
           <div className="content" />
         </Spin>
       </div>
