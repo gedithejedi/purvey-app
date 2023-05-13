@@ -1,8 +1,13 @@
-# dependencies
 node_modules
+.env
+coverage
+coverage.json
+typechain
+typechain-types
 
 .next
 
-# local env files
-.env
-.env*.local
+# Hardhat files
+cache
+artifacts
+hardhat/.env
