@@ -6,27 +6,27 @@ import { useEffect } from "react";
 
 const Home: NextPage = () => {
   const {
-      state: { status, isMetaMaskInstalled, wallet },
+      state,
       dispatch
     } = useMetaMask()
 
   const router = useRouter()
   useEffect(() => {
-    if(status !== 'loading' || !isMetaMaskInstalled) {
+    if(state?.status !== 'loading' || !state?.isMetaMaskInstalled) {
       const shouldRedirectToAuthPage =
-        status !== 'pageNotLoaded' && !wallet
+        state?.status !== 'pageNotLoaded' && !state?.wallet
       
       if (shouldRedirectToAuthPage) {
         router.replace("/auth/login")
       }
     }
-  }, [status, isMetaMaskInstalled, router, wallet]);  
+  }, [state, router]);  
   
  const handleDisconnect = () => {
     dispatch({ type: 'disconnect' })
   }
 
-  if(status === 'loading')  {
+  if(state?.status === 'loading')  {
     return (
       <>
         <main className="min-h-screen px-4 py-2">
@@ -40,7 +40,6 @@ const Home: NextPage = () => {
   return (
     <>
       <main className="min-h-screen px-4 py-2">
-        {wallet}
         <div><Button type="primary" onClick={handleDisconnect}>Logout</Button></div>
       </main>
     </>
