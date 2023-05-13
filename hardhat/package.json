@@ -1,9 +1,14 @@
 {
   "devDependencies": {
     "@nomicfoundation/hardhat-toolbox": "^2.0.2",
+    "@openzeppelin/contracts": "^4.8.3",
+    "@types/inquirer": "^9.0.3",
     "hardhat": "^2.14.0"
   },
   "dependencies": {
-    "dotenv": "^16.0.3"
+    "dotenv": "^16.0.3",
+    "getconfig": "^4.5.0",
+    "go-ipfs": "^0.20.0",
+    "inquirer": "^9.2.2"
   }
 }
