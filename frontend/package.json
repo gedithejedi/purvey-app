@@ -15,8 +15,10 @@
     "@metamask/sdk": "^0.2.4",
     "@t3-oss/env-nextjs": "^0.2.1",
     "antd": "^5.4.7",
+    "ethers": "^6.3.0",
     "jotai": "^2.1.0",
     "next": "^13.4.1",
+    "nft.storage": "^7.0.3",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "zod": "^3.21.4"

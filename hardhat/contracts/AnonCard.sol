@@ -27,7 +27,6 @@ contract AnonCard is ERC721, ERC721Enumerable, ERC721URIStorage, ERC721Burnable,
     }
 
     // The following functions are overrides required by Solidity.
-
     function _beforeTokenTransfer(address from, address to, uint256 tokenId, uint256 batchSize)
         internal
         override(ERC721, ERC721Enumerable)
@@ -57,11 +56,3 @@ contract AnonCard is ERC721, ERC721Enumerable, ERC721URIStorage, ERC721Burnable,
         return super.supportsInterface(interfaceId);
     }
 }
-
-// {
-//   "name": "GediTheJedi",
-//   "description": "A full-stack web developer",
-//   "image": "https://i.seadn.io/gcs/files/a95d580fadfe326d9208c740be0ea358.jpg?auto=format&w=1000"
-// }
-
-// ipfs://bafybeidoyf4652b5uuuzp2n5ephzybrps5azmymeiioueepqctnxhgdaeu

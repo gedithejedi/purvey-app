@@ -5,7 +5,7 @@ async function main () {
   console.log('Deploying AnonCard...');
   const anonCard = await AnonCard.deploy();
   await anonCard.deployed();
-  console.log('Box deployed to:', anonCard.address);
+  console.log('NFT Factory deployed to:', anonCard.address);
 }
 
 main()
