@@ -13,13 +13,15 @@ contract AnonCard is ERC721, ERC721Enumerable, ERC721URIStorage, ERC721Burnable,
 
     Counters.Counter private _tokenIdCounter;
 
-    constructor() ERC721("AnonCard", "ANONCARD") {}
+    constructor() ERC721("AnonCard", "ANONCARD") {
 
-    function _baseURI() internal pure override returns (string memory) {
-        return "ipfs://bafkreiezap7grosb6tl6m7fc3ppve5u2xz7a4tepk7aqc7vewstmvrvzgm";
     }
 
-    function safeMint(address to, string memory uri) public onlyOwner {
+    // function _baseURI() internal pure override returns (string memory) {
+    //     return "ipfs://bafkreiezap7grosb6tl6m7fc3ppve5u2xz7a4tepk7aqc7vewstmvrvzgm";
+    // }
+
+    function safeMint(address to, string memory uri) public {
         uint256 tokenId = _tokenIdCounter.current();
         _tokenIdCounter.increment();
         _safeMint(to, tokenId);

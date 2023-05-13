@@ -23,9 +23,9 @@ const normFile = (e: any) => {
   return e?.fileList;
 };
 
-const AnonCardInformation = (metadata) => {
+const AnonCardInformation = () => {
 
-  const askContractToMintNft = async () => {
+  const askContractToMintNft = async (metadata) => {
     const CONTRACT_ADDRESS = "0x637FB5145070aF52095762bD6a274e4b3370B446";
   
     try {
