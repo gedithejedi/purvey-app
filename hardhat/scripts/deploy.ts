@@ -1,4 +1,4 @@
-const main = async () => {
+const main1 = async () => {
     const nftContractFactory = await hre.ethers.getContractFactory('MyEpicNFT');
     const nftContract = await nftContractFactory.deploy();
     await nftContract.deployed();
@@ -18,7 +18,7 @@ const main = async () => {
   
   const runMain = async () => {
     try {
-      await main();
+      await main1();
       process.exit(0);
     } catch (error) {
       console.log(error);

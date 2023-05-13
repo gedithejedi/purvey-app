@@ -1,6 +1,8 @@
 require("@nomicfoundation/hardhat-toolbox");
 require("dotenv").config();
-const { PRIVATE_KEY } = process.env;
+require('@nomiclabs/hardhat-ethers');
+
+const { PRIVATE_KEY, API_URL } = process.env;
 
 module.exports = {
   solidity: "0.8.17",
@@ -8,6 +10,10 @@ module.exports = {
     linea: {
       url: `https://rpc.goerli.linea.build/`,
       accounts: [PRIVATE_KEY],
+    },
+    ropsten: { 
+      url: API_URL,
+      accounts: [`0x${PRIVATE_KEY}`],
     },
   },
 };
