@@ -6,6 +6,9 @@ export default {
     extend: {
       width: {
         'halfMinusGap': 'calc(50% - 0.25rem)',
+      },
+      colors: {
+        primary: "#4996c5"
       }
     },
   },

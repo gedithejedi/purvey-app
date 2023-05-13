@@ -15,7 +15,7 @@ export default function Page() {
 
   return (
     <main className="min-h-screen px-4 py-2">
-        <div className="space-y-3">
+        <div className="space-y-5">
             <TheBackButton />
             <CardDetail card={fakeCard} />
         </div>
