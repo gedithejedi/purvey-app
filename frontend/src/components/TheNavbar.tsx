@@ -15,19 +15,21 @@ const TheNavbar =  ({ state, onLogout }: HeaderProps) => {
     const [openPopup, setOpenPopup] = useState(false);
 
     return (
-        <div className="w-full px-6 py-2 h-14 border-b-2 flex justify-between items-center">
-            <Link className='h-fit' href="/">
-                <Image
-                    src="/Purvey_Logo_simple.svg"
-                    alt="logo"
-                    width={30}
-                    height={30}
-                />
-            </Link>
-            <div>
-                {/* TODO: replace it with user's name in the card */}
-               <span className='pr-2'>GM! {`${state.wallet?.slice(0,10)}...` ?? ''}</span>
-                <Avatar size={32} icon={<UserOutlined />} onClick={()=>setOpenDrawer(true)}/>
+        <div className="w-full px-6 py-2 h-14 border-b-2 flex justify-center">
+            <div className="w-full max-w-7xl flex justify-between items-center">
+                <Link className='h-fit' href="/">
+                    <Image
+                        src="/Purvey_Logo_simple.svg"
+                        alt="logo"
+                        width={30}
+                        height={30}
+                    />
+                </Link>
+                <div>
+                    {/* TODO: replace it with user's name in the card */}
+                <span className='pr-2'>GM! {`${state.wallet?.slice(0,10)}...` ?? ''}</span>
+                    <Avatar size={32} icon={<UserOutlined />} onClick={()=>setOpenDrawer(true)}/>
+                </div>
             </div>
             {/* TODO: replace it with user's name in the card */}
             <Drawer title={`GM! ${state.wallet?.slice(0,25)}...`} placement="right" onClose={()=>setOpenDrawer(false)} open={openDrawer}>
@@ -44,7 +46,7 @@ const TheNavbar =  ({ state, onLogout }: HeaderProps) => {
                         <Button type="primary" onClick={()=>setOpenPopup(true)}>
                             Topup
                         </Button>
-                        <Modal footer={null} open={openPopup} onCancel={()=>setOpenPopup(false)}>
+                        <Modal footer={null} open={openPopup} className="flex items-center" onCancel={()=>setOpenPopup(false)}>
                             <div className='flex w-[280px] flex-col gap-3'>
                                 <iframe src="https://giphy.com/embed/XIqCQx02E1U9W" width="280" height="130" allowFullScreen></iframe>
                                 <p>
@@ -59,7 +61,7 @@ const TheNavbar =  ({ state, onLogout }: HeaderProps) => {
                 </div>
             </Drawer>
         </div>
-  )
+    )
 };
 
 export default TheNavbar

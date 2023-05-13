@@ -5,7 +5,6 @@ type ConnectAction = { type: 'connect'; wallet: string; balance: string }
 type DisconnectAction = { type: 'disconnect' }
 type PageLoadedAction = {
   type: 'pageLoaded'
-  isMetaMaskInstalled: boolean
   wallet: string | null
   balance: string | null
 }
@@ -25,7 +24,7 @@ type Status = 'loading' | 'idle' | 'pageNotLoaded'
 
 export type State = {
   wallet: string | null
-  isMetaMaskInstalled: boolean
+  isMetaMaskInstalled: boolean | null
   status: Status
   balance: string | null
 }
@@ -37,27 +36,34 @@ export type State = {
  * @returns The state of the metamask reducer.
  */
 function metamaskReducer(state: State, action: Action): State {
+  // start by checking if window.ethereum is present, indicating a wallet extension
+  const ethereumProviderInjected = typeof window.ethereum !== 'undefined'
+
+  // this could be other wallets so we can verify if we are dealing with metamask
+  const isMetaMaskInstalled =
+    ethereumProviderInjected && Boolean(window.ethereum.isMetaMask)
+
   switch (action.type) {
     case 'connect': {
       const { wallet, balance } = action
-      const newState = { ...state, wallet, balance, status: 'idle' } as State
+      const newState = { ...state, wallet, isMetaMaskInstalled, balance, status: 'idle' } as State
       return newState
     }
     case 'disconnect': {
       if (window.ethereum) {
         window.ethereum.removeAllListeners('accountsChanged')
       }
-      return { ...state, wallet: null, balance: null }
+      return { ...state, wallet: null, isMetaMaskInstalled, balance: null, status: 'idle' }
     }
     case 'pageLoaded': {
-      const { isMetaMaskInstalled, balance, wallet } = action
+      const { balance, wallet } = action
       return { ...state, isMetaMaskInstalled, status: 'idle', wallet, balance }
     }
     case 'loading': {
-      return { ...state, status: 'loading' }
+      return { ...state, isMetaMaskInstalled, status: 'loading' }
     }
     case 'idle': {
-      return { ...state, status: 'idle' }
+      return { ...state, isMetaMaskInstalled, status: 'idle' }
     }
     default: {
       throw new Error('Unhandled action type')
