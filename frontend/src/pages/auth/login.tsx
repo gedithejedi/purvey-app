@@ -22,7 +22,6 @@ const Login: NextPage = () => {
   }, [])
 
  useEffect(() => {
-  console.log(wallet)
     if(wallet) {
         router.replace("/")
     }

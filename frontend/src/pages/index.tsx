@@ -7,6 +7,7 @@ import { useEffect } from "react";
 const Home: NextPage = () => {
   const {
       state: { status, isMetaMaskInstalled, wallet },
+      dispatch
     } = useMetaMask()
 
   const router = useRouter()
@@ -21,6 +22,10 @@ const Home: NextPage = () => {
     }
   }, [status, isMetaMaskInstalled, router, wallet]);  
   
+ const handleDisconnect = () => {
+    dispatch({ type: 'disconnect' })
+  }
+
   if(status === 'loading')  {
     return (
       <>
@@ -35,7 +40,8 @@ const Home: NextPage = () => {
   return (
     <>
       <main className="min-h-screen px-4 py-2">
-        <div><Button type="primary">Button</Button></div>
+        {wallet}
+        <div><Button type="primary" onClick={handleDisconnect}>Logout</Button></div>
       </main>
     </>
   );

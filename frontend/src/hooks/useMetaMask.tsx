@@ -1,4 +1,6 @@
-import React, { type PropsWithChildren } from 'react'
+import { stateAtomWithPersistence } from '~/store'
+import { useAtom } from 'jotai'
+import { useEffect } from 'react';
 
 type ConnectAction = { type: 'connect'; wallet: string; balance: string }
 type DisconnectAction = { type: 'disconnect' }
@@ -29,13 +31,6 @@ export type State = {
   balance: string | null
 }
 
-const initialState: State = {
-  wallet: null,
-  isMetaMaskInstalled: false,
-  status: 'loading',
-  balance: null,
-} as const
-
 /**
  * It takes in a state and an action, and returns a new state
  * @param {State} state - State - the current state of the reducer
@@ -47,13 +42,9 @@ function metamaskReducer(state: State, action: Action): State {
     case 'connect': {
       const { wallet, balance } = action
       const newState = { ...state, wallet, balance, status: 'idle' } as State
-      const info = JSON.stringify(newState)
-      window.localStorage.setItem('metamaskState', info)
-
       return newState
     }
     case 'disconnect': {
-      window.localStorage.removeItem('metamaskState')
       if (window.ethereum) {
         window.ethereum.removeAllListeners('accountsChanged')
       }
@@ -76,36 +67,12 @@ function metamaskReducer(state: State, action: Action): State {
   }
 }
 
-/**
- * It creates a context object, and then returns a provider component that wraps the children and
- * provides the context value
- * @param {PropsWithChildren}  - PropsWithChildren<{}>
- */
-const MetaMaskContext = React.createContext<
-  { state: State; dispatch: Dispatch } | undefined
->(undefined)
-
-function MetaMaskProvider({ children }: PropsWithChildren) {
-  const [state, dispatch] = React.useReducer(metamaskReducer, initialState)
-  const value = { state, dispatch }
-
-  return (
-    <MetaMaskContext.Provider value={value}>
-      {children}
-    </MetaMaskContext.Provider>
-  )
-}
-
-/**
- * It returns the value of the MetaMaskContext
- * @returns The context object.
- */
 function useMetaMask() {
-  const context = React.useContext(MetaMaskContext)
-  if (context === undefined) {
-    throw new Error('useMetaMask must be used within a MetaMaskProvider')
-  }
-  return context
+  const [state, setState] = useAtom(stateAtomWithPersistence)
+  const dispatch: Dispatch = (action: Action) => 
+    setState(metamaskReducer(state, action))
+
+  return {state, dispatch}
 }
 
-export { MetaMaskProvider, useMetaMask }
+export { useMetaMask }
