@@ -1,4 +1,3 @@
-import { Button } from 'antd';
 import React from 'react';
 import type { AnonCard } from '~/types';
 
@@ -7,28 +6,29 @@ interface DetailProps {
 }
 
 const Detail = ({ card }: DetailProps) => (
-  <header>
-    <div className="flex flex-col gap-y-3 items-center sm:items-start">
-        {
-            Object.keys(card).map((key, index) => {
-            return (
-                <div key={index} className='w-full'>
-                    {key === 'image' && <img src={card[key]} alt={card[key]} className='md:w-1/2' />}
-                    {key !== 'image' && 
-                        <div className='flex w-full'>
-                            <div className='w-24 font-bold'>{key}: </div>
-                            <div style={{width: "calc(100% - 6rem)"}}>{card[key]}</div>
-                        </div>
-                    }
-                </div>
-            );
-        })}
-        <div className='flex w-64 gap-x-2 mt-6'>
-            <Button type="primary" className='w-halfMinusGap'>Send</Button>
-            <Button className='w-halfMinusGap'>Edit</Button>
-        </div>
-    </div>
-  </header>
+  <div className="flex flex-col gap-y-3 items-center sm:items-start">
+      {
+          Object.keys(card).map((key, index) => {
+          return (
+              <div key={index} className='w-full'>
+                {
+                  (()=> {
+                    if(key === 'tokenId') {
+                      return <div className='font-bold mb-1 text-primary'># {card[key]}</div>
+                    } else if (key === 'image') {
+                      return <img src={card[key]} alt={card[key]} className='md:w-1/2' />
+                    } 
+
+                    return <div className='flex w-full'>
+                        <div className='w-24 font-bold'>{key}: </div>
+                        <div style={{width: "calc(100% - 6rem)"}}>{card[key]}</div>
+                    </div>
+                  })()
+                }
+              </div>
+          );
+      })}
+  </div>
 );
 
 export default Detail

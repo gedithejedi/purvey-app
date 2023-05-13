@@ -1,9 +1,10 @@
 import { Card, Empty } from 'antd';
 import { useRouter } from 'next/navigation';
+import type { AnonCard } from '~/types'
 
 interface CardsGalleryProps {
   // TODO: Update data type properly
-  cards: string[];
+  cards: AnonCard[];
 }
 
 const TheNavbar =  ({ cards }: CardsGalleryProps) => {
@@ -11,16 +12,16 @@ const TheNavbar =  ({ cards }: CardsGalleryProps) => {
 
     return (
         <Card  title="My AnonCard Wallet">
-           {cards.length && <div className="flex flex-wrap gap-y-3 gap-x-2">{cards.map((card, idx) => 
+           {cards.length && <div className="flex flex-wrap gap-y-3 gap-x-2">{cards.map((card) => 
                 // TODO: update with proper value
                 <Card 
                     hoverable
-                    cover={<img src="https://i.natgeofe.com/n/9135ca87-0115-4a22-8caf-d1bdef97a814/75552.jpg?w=826&h=550" alt={card} width="auto" height="180" className='w-full h-15' />}
-                    onClick={()=>{router.replace('#')}}
-                    key={idx}
+                    cover={<img src={card.image} alt={card.name} width="auto" height="180" className='w-full h-15' />}
+                    onClick={()=>{router.replace(`/anon-card/${card.tokenId}`)}}
+                    key={card.tokenId}
                     className="w-full md:w-halfMinusGap"
                 >
-                    <p className="text-gray-600">{card}</p> 
+                    <p className="text-gray-600">{card.name}</p> 
                 </Card>
             )}</div>}
 
