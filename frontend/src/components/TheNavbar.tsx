@@ -59,7 +59,7 @@ const TheNavbar =  ({ state, onLogout }: HeaderProps) => {
                 </div>
             </Drawer>
         </div>
-  )
+    )
 };
 
 export default TheNavbar

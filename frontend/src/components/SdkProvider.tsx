@@ -9,14 +9,7 @@ export const SdkLayout: React.FC<PropsWithChildren> = ({ children }) => {
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
-      // start by checking if window.ethereum is present, indicating a wallet extension
-      const ethereumProviderInjected = typeof window.ethereum !== 'undefined'
-
-      // this could be other wallets so we can verify if we are dealing with metamask
-      const isMetaMaskInstalled =
-        ethereumProviderInjected && Boolean(window.ethereum.isMetaMask)
-
-      const local = window.localStorage.getItem('metamaskState')
+      const local = window.localStorage.getItem('state')
 
       // user was previously connected, start listening to MM
       if (local) {
@@ -31,7 +24,7 @@ export const SdkLayout: React.FC<PropsWithChildren> = ({ children }) => {
           { wallet: null, balance: null }
 
       instantiateSdk()
-      dispatch({ type: 'pageLoaded', isMetaMaskInstalled, wallet, balance })
+      dispatch({ type: 'pageLoaded', wallet, balance })
     }
   }, [dispatch, listen])
 

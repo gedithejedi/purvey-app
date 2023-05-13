@@ -3,7 +3,7 @@ import type { State } from "~/hooks/useMetaMask"
 
 const initialState: State = {
   wallet: null,
-  isMetaMaskInstalled: false,
+  isMetaMaskInstalled: null,
   status: 'loading',
   balance: null,
 } as const
@@ -21,9 +21,9 @@ export const stateAtomWithPersistence = atom(
   (_get, set, newState: State | null) => {
     if(typeof window === undefined) {
       return
-      // throw Error('Set action cannot be called in server side rendering!')
     }
     set(stateAtom, newState)
     localStorage.setItem('state',JSON.stringify(newState))
+    console.log(newState)
   },
 )

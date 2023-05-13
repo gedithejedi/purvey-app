@@ -1,5 +1,7 @@
 import Head from "next/head";
 import { useRouter } from "next/router";
+import { useRouter as useNavigation} from "next/navigation";
+
 import TheNavbar from '~/components/TheNavbar'
 import { useMetaMask } from '~/hooks/useMetaMask'
 import { Spin } from "antd";
@@ -10,10 +12,13 @@ export interface IPrimaryLayout {
 
 const PrimaryLayout: React.FC<IPrimaryLayout> = ({ children }) => {
   const router = useRouter()
+  const navigation = useNavigation()
+
   const { state, dispatch } = useMetaMask()
 
   const handleDisconnect = () => {
     dispatch({ type: 'disconnect' })
+    navigation.replace("/auth/login")
   }
 
   if(!router.route.includes('auth') && !state) {
