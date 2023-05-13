@@ -15,7 +15,7 @@ const TheNavbar =  ({ cards }: CardsGalleryProps) => {
                 // TODO: update with proper value
                 <Card 
                     hoverable
-                    cover={<img src="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png" alt={card} width="auto" height="180" className='w-full h-15' />}
+                    cover={<img src="https://i.natgeofe.com/n/9135ca87-0115-4a22-8caf-d1bdef97a814/75552.jpg?w=826&h=550" alt={card} width="auto" height="180" className='w-full h-15' />}
                     onClick={()=>{router.replace('#')}}
                     key={idx}
                     className="w-full md:w-halfMinusGap"
