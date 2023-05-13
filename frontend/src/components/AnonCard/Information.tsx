@@ -1,16 +1,11 @@
-import { Card, Space, UploadProps } from 'antd';
+import { Card, type UploadProps } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
-import {
-  Button,
-  Form,
-  Input,
-  Upload,
-} from 'antd';
+import { Button, Form, Input, Upload } from 'antd';
 import { NFTStorage, File } from 'nft.storage'
-import { UploadRequestOption as RcCustomRequestOptions } from 'rc-upload/lib/interface';
+import { type UploadRequestOption as RcCustomRequestOptions } from 'rc-upload/lib/interface';
 import { env } from "~/env.mjs";
 import { ethers } from "ethers";
-import anonCard from "../utils/AnonCard.json";
+import anonCard from "~/utils/AnonCard.json";
 
 const NFT_STORAGE = env.NEXT_PUBLIC_NFT_STORAGE;
 const client = new NFTStorage({ token: NFT_STORAGE })
@@ -33,11 +28,10 @@ const AnonCardInformation = () => {
   
       if (ethereum) {
         const provider = new ethers.BrowserProvider(ethereum);
-        const signer = provider.getSigner();
         const connectedContract = new ethers.Contract(CONTRACT_ADDRESS, anonCard.abi, provider);
   
         console.log("Going to pop wallet now to pay gas...")
-        let nftTxn = await connectedContract.safeMint();
+        const nftTxn = await connectedContract.safeMint();
   
         console.log("Mining...please wait.")
         await nftTxn.wait();
@@ -55,7 +49,7 @@ const AnonCardInformation = () => {
   const onFinish = async (values) => {
     console.log("Success:", values);
     //Can directly call props here
-    const content = values.image[0].originFileObj;
+    const content = values.image[0]?.originFileObj;
 
     // Set up the NFT metadata
     const metadata = await client.store({
@@ -92,24 +86,25 @@ const AnonCardInformation = () => {
 
   return (
     <div>
-      <Space direction="vertical" size={16}>
-        <Card title="Create an AnonCard" className='w-full'>          
-          <Form
-            labelCol={{ span: 4 }}
-            wrapperCol={{ span: 14 }}
-            layout="horizontal"
-            // style={{ maxWidth: 600 }}
-            initialValues={{
-              remember: true
-            }}
-            onFinish={onFinish}
-            onFinishFailed={onFinishFailed}
-          >
+      <Card title="Create an AnonCard" className='w-full'>          
+        <Form
+          labelCol={{ span: 4 }}
+          wrapperCol={{ span: 14 }}
+          layout="horizontal"
+          initialValues={{
+            remember: true
+          }}
+          onFinish={onFinish}
+          onFinishFailed={onFinishFailed}
+        >
+          <div className='flex flex-col'>
             <Form.Item 
               label="Upload Cover Image" 
               valuePropName="fileList" 
               getValueFromEvent={normFile} 
-              name="image">
+              name="image"
+              extra="(Uploading more than one pictures will reset the previously uploaded picture)"
+            >
               <Upload
                 {...uploadSettings}
                 customRequest={dummyRequest}
@@ -129,12 +124,14 @@ const AnonCardInformation = () => {
             <Form.Item label="Description" name="description">
               <TextArea rows={4} />
             </Form.Item>
-            <Form.Item>
-              <Button type="primary" htmlType="submit">Mint</Button>
-            </Form.Item>
-          </Form>
-        </Card>
-      </Space>
+            <div className="flex justify-end">
+              <Form.Item>
+                <Button type="primary" htmlType="submit" className="w-40" size="large">Mint</Button>
+              </Form.Item>
+            </div>
+          </div>
+        </Form>
+      </Card>
     </div>
   );
 }
