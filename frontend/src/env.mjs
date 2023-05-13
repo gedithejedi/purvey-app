@@ -7,7 +7,7 @@ export const env = createEnv({
    * isn't built with invalid env vars.
    */
   server: {
-    NODE_ENV: z.enum(["development", "test", "production"]),
+    NFT_STORAGE: z.string(),
   },
 
   /**
@@ -16,7 +16,7 @@ export const env = createEnv({
    * `NEXT_PUBLIC_`.
    */
   client: {
-    // NEXT_PUBLIC_CLIENTVAR: z.string().min(1),
+    NEXT_PUBLIC_NFT_STORAGE: z.string(),
   },
 
   /**
@@ -24,7 +24,7 @@ export const env = createEnv({
    * middlewares) or client-side so we need to destruct manually.
    */
   runtimeEnv: {
-    NODE_ENV: process.env.NODE_ENV,
-    // NEXT_PUBLIC_CLIENTVAR: process.env.NEXT_PUBLIC_CLIENTVAR,
+    NEXT_PUBLIC_NFT_STORAGE: process.env.NEXT_PUBLIC_NFT_STORAGE,
+    NFT_STORAGE: process.env.NEXT_PUBLIC_NFT_STORAGE,
   },
 });
