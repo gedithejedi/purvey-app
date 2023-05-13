@@ -1,6 +1,5 @@
 import { stateAtomWithPersistence } from '~/store'
 import { useAtom } from 'jotai'
-import { useEffect } from 'react';
 
 type ConnectAction = { type: 'connect'; wallet: string; balance: string }
 type DisconnectAction = { type: 'disconnect' }
