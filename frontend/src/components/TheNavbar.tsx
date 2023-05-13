@@ -31,8 +31,12 @@ const TheNavbar =  ({ state, onLogout }: HeaderProps) => {
                     height={30}
                 />
             </Link>
-            <Avatar size={32} icon={<UserOutlined />} onClick={showDrawer}/>
-            <Drawer title="Welcome!" placement="right" onClose={onClose} open={open}>
+            <div>
+               <span className='pr-2'>GM! {`${state.wallet?.slice(0,10)}...` ?? ''}</span>
+                <Avatar size={32} icon={<UserOutlined />} onClick={showDrawer}/>
+            </div>
+            {/* TODO: replace it with user's name in the card */}
+            <Drawer title={`GM! ${state.wallet?.slice(0,25)}...`} placement="right" onClose={onClose} open={open}>
                 <div className='h-full flex flex-col justify-between'>
                     <div className='flex flex-col gap-2'>
                         <div>

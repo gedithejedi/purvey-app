@@ -1,14 +1,11 @@
-import { Button, Spin } from "antd";
+import { Spin } from "antd";
 import { type NextPage } from "next";
 import { useMetaMask } from '../hooks/useMetaMask'
 import { useRouter } from 'next/navigation'
 import { useEffect } from "react";
 
 const Home: NextPage = () => {
-  const {
-      state,
-      dispatch
-    } = useMetaMask()
+  const { state } = useMetaMask()
 
   const router = useRouter()
   useEffect(() => {
@@ -22,27 +19,20 @@ const Home: NextPage = () => {
     }
   }, [state, router]);  
   
- const handleDisconnect = () => {
-    dispatch({ type: 'disconnect' })
-  }
 
   if(state?.status === 'loading')  {
     return (
-      <>
-        <main className="min-h-screen px-4 py-2">
-          <Spin tip="Loading">
-            <div className="content" />
-          </Spin>
-        </main>
-      </>
+      <div className="min-h-screen px-4 py-2">
+        <Spin tip="Loading">
+          <div className="content" />
+        </Spin>
+      </div>
     );
   }
   return (
-    <>
-      <main className="min-h-screen px-4 py-2">
-        <div></div>
-      </main>
-    </>
+    <main className="min-h-screen px-4 py-2">
+      <div>Contents</div>
+    </main>
   );
 };
 
