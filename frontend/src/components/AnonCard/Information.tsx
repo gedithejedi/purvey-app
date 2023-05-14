@@ -25,6 +25,7 @@ const AnonCardInformation = () => {
   const {state} = useMetaMask()
   const [openPopup, setOpenPopup] = useState(false);
   const [createdToken, setCreatedToken] = useState('');
+  const [minting, setMinting] = useState(false);
 
   const router = useRouter()
   const askContractToMintNft = async (metadata) => {
@@ -39,15 +40,18 @@ const AnonCardInformation = () => {
         const signer = await provider.getSigner();
         const connectedContractRead = new ethers.Contract(CONTRACT_ADDRESS, anonCard.abi, provider);
         const connectedContractWrite = new ethers.Contract(CONTRACT_ADDRESS, anonCard.abi, signer);
-  
+        
+        setMinting(true)
         console.log("Going to pop wallet now to pay gas...")
         console.log(metadata);
         const nftTxn = await connectedContractWrite.safeMint(state.wallet, metadata);
         console.log(nftTxn);
         console.log("Mining...please wait.")
         await nftTxn.wait();
+
         setCreatedToken(String(nftTxn.hash ?? ''))
         console.log(`Mined, see transaction: https://explorer.goerli.linea.build/tx/${nftTxn.hash}`);
+        setMinting(false)
         setOpenPopup(true)
       } else {
         console.log("Ethereum object doesn't exist!");
@@ -109,11 +113,12 @@ const AnonCardInformation = () => {
   return (
     <div>
       <Modal open={openPopup} className="flex items-center" onOk={() => router.replace('/')} onCancel={() => router.replace('/')}>
-          <p>Your AnonCard has been successfully mined!</p>
-          <p>see <a href={`https://explorer.goerli.linea.build/tx/${createdToken}`} target='_blank'>transaction</a></p>
+          <p>Your AnonCard has been successfully minted!</p>
+          <div>Check it out on <Button type="link" href={`https://explorer.goerli.linea.build/tx/${createdToken}`} target='_blank'>transaction</Button></div>
       </Modal>
-      <Card title="Create an AnonCard" className='w-full'>          
-        <Form
+      <Card title="Create an AnonCard" className='w-full'>   
+        {minting && <div>Minting ...</div>}       
+        {!minting && <Form
           labelCol={{ span: 4 }}
           wrapperCol={{ span: 14 }}
           layout="horizontal"
@@ -163,7 +168,7 @@ const AnonCardInformation = () => {
               </Form.Item>
             </div>
           </div>
-        </Form>
+        </Form>}
       </Card>
     </div>
   );
