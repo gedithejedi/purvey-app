@@ -48,6 +48,7 @@ const AnonCardInformation = () => {
         await nftTxn.wait();
         setCreatedToken(String(nftTxn.hash ?? ''))
         console.log(`Mined, see transaction: https://explorer.goerli.linea.build/tx/${nftTxn.hash}`);
+        setOpenPopup(true)
       } else {
         console.log("Ethereum object doesn't exist!");
         Modal.error({
@@ -107,7 +108,7 @@ const AnonCardInformation = () => {
 
   return (
     <div>
-      <Modal open={openPopup} className="flex items-center" onOk={()=>router.replace('/')} onCancel={()=>router.replace('/')}>
+      <Modal open={openPopup} className="flex items-center" onOk={() => router.replace('/')} onCancel={() => router.replace('/')}>
           <p>Your AnonCard has been successfully mined!</p>
           <p>see <a href={`https://explorer.goerli.linea.build/tx/${createdToken}`} target='_blank'>transaction</a></p>
       </Modal>
