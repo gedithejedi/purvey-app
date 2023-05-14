@@ -7,6 +7,7 @@ import { env } from "~/env.mjs";
 import { ethers } from "ethers";
 import anonCard from "~/utils/AnonCard.json";
 import { useMetaMask } from '~/hooks/useMetaMask';
+import {CONTRACT_ADDRESS} from "../../utils/constants";
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
@@ -29,7 +30,6 @@ const AnonCardInformation = () => {
 
   const router = useRouter()
   const askContractToMintNft = async (metadata) => {
-    const CONTRACT_ADDRESS = "0x637FB5145070aF52095762bD6a274e4b3370B446";
     console.log(999)
     try {
       const { ethereum } = window;
