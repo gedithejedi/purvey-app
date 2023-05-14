@@ -1,4 +1,4 @@
-import { Card, type UploadProps } from 'antd';
+import { Card, type UploadProps, Modal } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import { Button, Form, Input, Upload } from 'antd';
 import { NFTStorage, File } from 'nft.storage'
@@ -7,6 +7,8 @@ import { env } from "~/env.mjs";
 import { ethers } from "ethers";
 import anonCard from "~/utils/AnonCard.json";
 import { useMetaMask } from '~/hooks/useMetaMask';
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 
 const NFT_STORAGE = env.NEXT_PUBLIC_NFT_STORAGE;
 const client = new NFTStorage({ token: NFT_STORAGE })
@@ -21,6 +23,10 @@ const normFile = (e: any) => {
 
 const AnonCardInformation = () => {
   const {state} = useMetaMask()
+  const [openPopup, setOpenPopup] = useState(false);
+  const [createdToken, setCreatedToken] = useState('');
+
+  const router = useRouter()
   const askContractToMintNft = async (metadata) => {
     const CONTRACT_ADDRESS = "0x637FB5145070aF52095762bD6a274e4b3370B446";
     console.log(999)
@@ -40,14 +46,22 @@ const AnonCardInformation = () => {
         console.log(nftTxn);
         console.log("Mining...please wait.")
         await nftTxn.wait();
-        
+        setCreatedToken(String(nftTxn.hash ?? ''))
         console.log(`Mined, see transaction: https://explorer.goerli.linea.build/tx/${nftTxn.hash}`);
-  
       } else {
         console.log("Ethereum object doesn't exist!");
+        Modal.error({
+          title: 'This is an error message',
+          content: "Your AnonCard couldn't be minted. (Ethereum object doesn't exist!)",
+        });
       }
     } catch (error) {
       console.log(error)
+      const errorText = e.message ? e.message as string : "Unknown error occurred!"
+      Modal.error({
+        title: 'This is an error message',
+        content: `Your AnonCard couldn't be minted. (${errorText})`,
+      });
     }
   }
   
@@ -93,6 +107,10 @@ const AnonCardInformation = () => {
 
   return (
     <div>
+      <Modal open={openPopup} className="flex items-center" onOk={()=>router.replace('/')} onCancel={()=>router.replace('/')}>
+          <p>Your AnonCard has been successfully mined!</p>
+          <p>see <a href={`https://explorer.goerli.linea.build/tx/${createdToken}`} target='_blank'>transaction</a></p>
+      </Modal>
       <Card title="Create an AnonCard" className='w-full'>          
         <Form
           labelCol={{ span: 4 }}
