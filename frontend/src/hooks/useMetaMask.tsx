@@ -81,7 +81,6 @@ function metamaskReducer(state: State, action: Action): State {
     }
     case 'updateChainId': {
       const { wallet, chainId, balance } = action
-      console.log({ ...state, chainId, balance, status: 'idle' })
       return { ...state,wallet, chainId, balance, status: 'idle' }
     }
     default: {

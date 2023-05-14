@@ -23,7 +23,6 @@ export const useListen = () => {
         const narrowedBalance = typeof newBalance === 'string' ? newBalance : ''
         const narrowedChainId = typeof newChainId === 'string' ? newChainId : null
 
-        console.log(narrowedBalance)
         dispatch({
           type: 'connect',
           wallet: newAccounts[0],
@@ -42,7 +41,6 @@ export const useListen = () => {
         method: 'eth_requestAccounts',
       })
 
-      console.log(newChainId)
       const balance = await window.ethereum.request({
         method: 'eth_getBalance',
         params: [accounts[0], 'latest'],
