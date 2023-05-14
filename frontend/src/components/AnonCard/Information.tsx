@@ -58,7 +58,7 @@ const AnonCardInformation = () => {
       }
     } catch (error) {
       console.log(error)
-      const errorText = e.message ? e.message as string : "Unknown error occurred!"
+      const errorText = error.message ? error.message as string : "Unknown error occurred!"
       Modal.error({
         title: 'This is an error message',
         content: `Your AnonCard couldn't be minted. (${errorText})`,
