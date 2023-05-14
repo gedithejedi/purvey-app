@@ -42,7 +42,9 @@ const Login: NextPage = () => {
           params: [accounts[0], 'latest'],
         }) as string | null
 
-        dispatch({ type: 'connect', wallet: accounts[0], balance })
+        const newChainId = await window.ethereum.request({ method: 'eth_chainId' }) as string | null
+
+        dispatch({ type: 'connect', wallet: accounts[0], balance, chainId: newChainId })
 
         listen()
         router.replace("/")

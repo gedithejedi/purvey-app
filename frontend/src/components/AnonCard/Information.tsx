@@ -1,4 +1,4 @@
-import { Card, type UploadProps } from 'antd';
+import { Card, type UploadProps, Modal } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import { Button, Form, Input, Upload } from 'antd';
 import { NFTStorage, File } from 'nft.storage'
@@ -8,6 +8,8 @@ import { ethers } from "ethers";
 import anonCard from "~/utils/AnonCard.json";
 import { useMetaMask } from '~/hooks/useMetaMask';
 import {CONTRACT_ADDRESS} from "../../utils/constants";
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 
 const NFT_STORAGE = env.NEXT_PUBLIC_NFT_STORAGE;
 const client = new NFTStorage({ token: NFT_STORAGE })
@@ -22,6 +24,11 @@ const normFile = (e: any) => {
 
 const AnonCardInformation = () => {
   const {state} = useMetaMask()
+  const [openPopup, setOpenPopup] = useState(false);
+  const [createdToken, setCreatedToken] = useState('');
+  const [minting, setMinting] = useState(false);
+
+  const router = useRouter()
   const askContractToMintNft = async (metadata) => {
     console.log(999)
     try {
@@ -33,21 +40,33 @@ const AnonCardInformation = () => {
         const signer = await provider.getSigner();
         const connectedContractRead = new ethers.Contract(CONTRACT_ADDRESS, anonCard.abi, provider);
         const connectedContractWrite = new ethers.Contract(CONTRACT_ADDRESS, anonCard.abi, signer);
-  
+        
+        setMinting(true)
         console.log("Going to pop wallet now to pay gas...")
         console.log(metadata);
         const nftTxn = await connectedContractWrite.safeMint(state.wallet, metadata);
         console.log(nftTxn);
         console.log("Mining...please wait.")
         await nftTxn.wait();
-        
+
+        setCreatedToken(String(nftTxn.hash ?? ''))
         console.log(`Mined, see transaction: https://explorer.goerli.linea.build/tx/${nftTxn.hash}`);
-  
+        setMinting(false)
+        setOpenPopup(true)
       } else {
         console.log("Ethereum object doesn't exist!");
+        Modal.error({
+          title: 'This is an error message',
+          content: "Your AnonCard couldn't be minted. (Ethereum object doesn't exist!)",
+        });
       }
     } catch (error) {
       console.log(error)
+      const errorText = error.message ? error.message as string : "Unknown error occurred!"
+      Modal.error({
+        title: 'This is an error message',
+        content: `Your AnonCard couldn't be minted. (${errorText})`,
+      });
     }
   }
   
@@ -59,6 +78,8 @@ const AnonCardInformation = () => {
     // Set up the NFT metadata
     const metadata = await client.store({
       name: values.name,
+      discord: values.discord,
+      twitter: values.twitter,
       description: values.description,
       image: new File(
         [content],
@@ -91,8 +112,13 @@ const AnonCardInformation = () => {
 
   return (
     <div>
-      <Card title="Create an AnonCard" className='w-full'>          
-        <Form
+      <Modal open={openPopup} className="flex items-center" onOk={() => router.replace('/')} onCancel={() => router.replace('/')}>
+          <p>Your AnonCard has been successfully minted!</p>
+          <div>Check it out on <Button type="link" href={`https://explorer.goerli.linea.build/tx/${createdToken}`} target='_blank'>transaction</Button></div>
+      </Modal>
+      <Card title="Create an AnonCard" className='w-full'>   
+        {minting && <div>Minting ...</div>}       
+        {!minting && <Form
           labelCol={{ span: 4 }}
           wrapperCol={{ span: 14 }}
           layout="horizontal"
@@ -109,6 +135,7 @@ const AnonCardInformation = () => {
               getValueFromEvent={normFile} 
               name="image"
               extra="(Uploading more than one pictures will reset the previously uploaded picture)"
+              rules={[{ required: true, message: 'Please uplaod cover image' }]}
             >
               <Upload
                 {...uploadSettings}
@@ -123,7 +150,13 @@ const AnonCardInformation = () => {
                 </div>
               </Upload>
             </Form.Item>
-            <Form.Item label="Name" name="name">
+            <Form.Item label="Name" name="name" rules={[{ required: true, message: 'Please input name' }]}>
+              <Input />
+            </Form.Item>
+            <Form.Item label="Discord" name="discord">
+              <Input />
+            </Form.Item>
+            <Form.Item label="Twitter" name="twitter">
               <Input />
             </Form.Item>
             <Form.Item label="Description" name="description">
@@ -135,7 +168,7 @@ const AnonCardInformation = () => {
               </Form.Item>
             </div>
           </div>
-        </Form>
+        </Form>}
       </Card>
     </div>
   );

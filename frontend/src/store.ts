@@ -6,6 +6,7 @@ const initialState: State = {
   isMetaMaskInstalled: null,
   status: 'loading',
   balance: null,
+  chainId: null,
 } as const
 
 // Jotai implementation
