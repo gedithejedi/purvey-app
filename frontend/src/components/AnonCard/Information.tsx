@@ -7,6 +7,7 @@ import { env } from "~/env.mjs";
 import { ethers } from "ethers";
 import anonCard from "~/utils/AnonCard.json";
 import { useMetaMask } from '~/hooks/useMetaMask';
+import {CONTRACT_ADDRESS} from "../../utils/constants";
 
 const NFT_STORAGE = env.NEXT_PUBLIC_NFT_STORAGE;
 const client = new NFTStorage({ token: NFT_STORAGE })
@@ -22,7 +23,6 @@ const normFile = (e: any) => {
 const AnonCardInformation = () => {
   const {state} = useMetaMask()
   const askContractToMintNft = async (metadata) => {
-    const CONTRACT_ADDRESS = "0x637FB5145070aF52095762bD6a274e4b3370B446";
     console.log(999)
     try {
       const { ethereum } = window;
