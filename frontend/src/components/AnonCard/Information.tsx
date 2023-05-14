@@ -59,6 +59,8 @@ const AnonCardInformation = () => {
     // Set up the NFT metadata
     const metadata = await client.store({
       name: values.name,
+      discord: values.discord,
+      twitter: values.twitter,
       description: values.description,
       image: new File(
         [content],
@@ -109,6 +111,7 @@ const AnonCardInformation = () => {
               getValueFromEvent={normFile} 
               name="image"
               extra="(Uploading more than one pictures will reset the previously uploaded picture)"
+              rules={[{ required: true, message: 'Please uplaod cover image' }]}
             >
               <Upload
                 {...uploadSettings}
@@ -123,7 +126,13 @@ const AnonCardInformation = () => {
                 </div>
               </Upload>
             </Form.Item>
-            <Form.Item label="Name" name="name">
+            <Form.Item label="Name" name="name" rules={[{ required: true, message: 'Please input name' }]}>
+              <Input />
+            </Form.Item>
+            <Form.Item label="Discord" name="discord">
+              <Input />
+            </Form.Item>
+            <Form.Item label="Twitter" name="twitter">
               <Input />
             </Form.Item>
             <Form.Item label="Description" name="description">
