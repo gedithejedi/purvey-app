@@ -30,12 +30,13 @@ const AnonCardInformation = () => {
       if (ethereum) {
         const provider = new ethers.BrowserProvider(ethereum);
         console.log(provider)
-        const signer = provider.getSigner();
-        const connectedContract = new ethers.Contract(CONTRACT_ADDRESS, anonCard.abi, provider);
+        const signer = await provider.getSigner();
+        const connectedContractRead = new ethers.Contract(CONTRACT_ADDRESS, anonCard.abi, provider);
+        const connectedContractWrite = new ethers.Contract(CONTRACT_ADDRESS, anonCard.abi, signer);
   
         console.log("Going to pop wallet now to pay gas...")
-        
-        const nftTxn = await connectedContract.safeMint(state.wallet, metadata);
+        console.log(metadata);
+        const nftTxn = await connectedContractWrite.safeMint(state.wallet, metadata);
         console.log(nftTxn);
         console.log("Mining...please wait.")
         await nftTxn.wait();
