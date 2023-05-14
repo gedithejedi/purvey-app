@@ -5,6 +5,7 @@ import type { State } from "~/hooks/useMetaMask"
 import Image from "next/image";
 import Link from 'next/link';
 import QRCode from "react-qr-code";
+import { ethers } from "ethers";
 
 interface HeaderProps {
   state: State;
@@ -66,7 +67,7 @@ const TheNavbar =  ({ state, onLogout }: HeaderProps) => {
                         </div>
                         <div>
                             <p className='font-bold'>balance: </p>
-                            <p>{parseInt(state.balance)} ETH</p>
+                            <p>{typeof state.balance === 'string' ? ethers.formatEther(state.balance) : 'Unknown'} ETH</p>
                         </div>
                         <Button type="primary" onClick={()=>setOpenPopup(true)}>
                             Topup
