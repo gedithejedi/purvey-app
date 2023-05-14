@@ -1,7 +1,12 @@
 import { stateAtomWithPersistence } from '~/store'
 import { useAtom } from 'jotai'
 
-type ConnectAction = { type: 'connect'; wallet: string; balance: string }
+type ConnectAction = { 
+  type: 'connect'
+  wallet: string 
+  balance: string
+  chainId: string | null
+}
 type DisconnectAction = { type: 'disconnect' }
 type PageLoadedAction = {
   type: 'pageLoaded'
@@ -10,6 +15,12 @@ type PageLoadedAction = {
 }
 type LoadingAction = { type: 'loading' }
 type IdleAction = { type: 'idle' }
+type UpdateChainIdAction = {
+  type: 'updateChainId'
+  wallet: string | null
+  chainId: string | null
+  balance: string | null
+}
 
 type Action =
   | ConnectAction
@@ -17,6 +28,7 @@ type Action =
   | PageLoadedAction
   | LoadingAction
   | IdleAction
+  | UpdateChainIdAction
 
 type Dispatch = (action: Action) => void
 
@@ -27,6 +39,7 @@ export type State = {
   isMetaMaskInstalled: boolean | null
   status: Status
   balance: string | null
+  chainId: string | null
 }
 
 /**
@@ -45,13 +58,14 @@ function metamaskReducer(state: State, action: Action): State {
 
   switch (action.type) {
     case 'connect': {
-      const { wallet, balance } = action
-      const newState = { ...state, wallet, isMetaMaskInstalled, balance, status: 'idle' } as State
+      const { wallet, balance, chainId } = action
+      const newState = { ...state, wallet, isMetaMaskInstalled, balance, chainId, status: 'idle' } as State
       return newState
     }
     case 'disconnect': {
       if (window.ethereum) {
         window.ethereum.removeAllListeners('accountsChanged')
+        window.ethereum.removeAllListeners('updateChainId')
       }
       return { ...state, wallet: null, isMetaMaskInstalled, balance: null, status: 'idle' }
     }
@@ -64,6 +78,11 @@ function metamaskReducer(state: State, action: Action): State {
     }
     case 'idle': {
       return { ...state, isMetaMaskInstalled, status: 'idle' }
+    }
+    case 'updateChainId': {
+      const { wallet, chainId, balance } = action
+      console.log({ ...state, chainId, balance, status: 'idle' })
+      return { ...state,wallet, chainId, balance, status: 'idle' }
     }
     default: {
       throw new Error('Unhandled action type')

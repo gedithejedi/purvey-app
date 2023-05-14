@@ -19,18 +19,41 @@ export const useListen = () => {
           method: 'eth_getBalance',
           params: [newAccounts[0], 'latest'],
         })
-
+        const newChainId = await window.ethereum.request({ method: 'eth_chainId' });
         const narrowedBalance = typeof newBalance === 'string' ? newBalance : ''
+        const narrowedChainId = typeof newChainId === 'string' ? newChainId : null
 
+        console.log(narrowedBalance)
         dispatch({
           type: 'connect',
           wallet: newAccounts[0],
           balance: narrowedBalance,
+          chainId: narrowedChainId,
         })
       } else {
         // if the length is 0, then the user has disconnected from the wallet UI
         dispatch({ type: 'disconnect' })
       }
+    })
+
+    // eslint-disable-next-line @typescript-eslint/no-misused-promises
+    window.ethereum?.on('chainChanged', async (newChainId: string[]) => {
+      const accounts: string[] = await window.ethereum.request({
+        method: 'eth_requestAccounts',
+      })
+
+      console.log(newChainId)
+      const balance = await window.ethereum.request({
+        method: 'eth_getBalance',
+        params: [accounts[0], 'latest'],
+      }) as string | null
+
+      dispatch({
+        type: 'updateChainId',
+        wallet: accounts[0],
+        chainId: newChainId[0],
+        balance
+      })
     })
   }
 }
