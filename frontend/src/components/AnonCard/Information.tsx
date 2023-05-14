@@ -112,7 +112,7 @@ const AnonCardInformation = () => {
 
   return (
     <div>
-      <Modal open={openPopup} className="flex items-center" onOk={() => router.replace('/')} onCancel={() => router.replace('/')}>
+      <Modal open={openPopup} className="flex items-center" onOk={() => router.replace('/')} onCancel={() => setOpenPopup(false)}>
           <p>Your AnonCard has been successfully minted!</p>
           <div>Check it out on <Button type="link" href={`https://explorer.goerli.linea.build/tx/${createdToken}`} target='_blank'>transaction</Button></div>
       </Modal>
